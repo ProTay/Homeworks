@@ -4,7 +4,7 @@
 import numpy as np
 import pandas as pd
 import streamlit as st
-st.set_page_config(page_title = 'Census Visualisation Web App',page_icon = ':fire:',layout = 'centered',initial_sidebar_state = 'auto')
+st.set_page_config(page_title = 'Census Visualisation Web App',page_icon = ':random:',layout = 'centered',initial_sidebar_state = 'auto')
 
 @st.cache()
 def load_data():
