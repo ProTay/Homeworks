@@ -1,0 +1,634 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "provenance": [],
+      "collapsed_sections": [],
+      "include_colab_link": true
+    },
+    "kernelspec": {
+      "name": "python3",
+      "display_name": "Python 3"
+    },
+    "language_info": {
+      "name": "python"
+    }
+  },
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "view-in-github",
+        "colab_type": "text"
+      },
+      "source": [
+        "<a href=\"https://colab.research.google.com/github/ProTay/Homeworks/blob/main/Project%20104%20Homework\" target=\"_parent\"><img src=\"https://colab.research.google.com/assets/colab-badge.svg\" alt=\"Open In Colab\"/></a>"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "erYQyGJOT0Ya"
+      },
+      "source": [
+        "### Instructions"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "bEyBzxYRhrLG"
+      },
+      "source": [
+        "#### Goal of the Project\n",
+        "\n",
+        "This project is designed for you to practice and solve the activities that are based on the concepts covered in the lessons: \n",
+        "\n",
+        "- Polynomial Regression - Polynomials\n",
+        "\n",
+        "- Polynomial Regression - Underfitting"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "pIrCR0_QMp18"
+      },
+      "source": [
+        "---"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "CG5T1dAwUa9_"
+      },
+      "source": [
+        "#### Getting Started:\n",
+        "\n",
+        "1. Click on this link to open the Colab file for this project.\n",
+        "\n",
+        "  https://colab.research.google.com/drive/1xEHlRNJO1Uc2uS0g9g9Ajb-LsHbf88JC\n",
+        "\n",
+        "2. Create a duplicate copy of the Colab file as described below.\n",
+        "\n",
+        "  - Click on the **File menu**. A new drop-down list will appear.\n",
+        "\n",
+        "   <img src='https://student-datasets-bucket.s3.ap-south-1.amazonaws.com/images/lesson-0/0_file_menu.png' width=500>\n",
+        "\n",
+        "  - Click on the **Save a copy in Drive** option. A duplicate copy will get created. It will open up in the new tab on your web browser.\n",
+        "\n",
+        "  <img src='https://student-datasets-bucket.s3.ap-south-1.amazonaws.com/images/lesson-0/1_create_colab_duplicate_copy.png' width=500>\n",
+        "\n",
+        "3. After creating the duplicate copy of the notebook, please rename it in the **YYYY-MM-DD_StudentName_Project104** format.\n",
+        "\n",
+        "4. Now, write your code in the prescribed code cells."
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "R06aOg5QUahc"
+      },
+      "source": [
+        "---"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "oHEruqrlZewu"
+      },
+      "source": [
+        "#### Problem Statement\n",
+        "\n",
+        "In this project, you are going to build a Regression model to predict the **Pressure** in a region by analysing the **Temperature** value."
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "qIVNEyp4Mrem"
+      },
+      "source": [
+        "---"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "2LpOy28nkFG_"
+      },
+      "source": [
+        "### Dataset Description\n",
+        "\n",
+        "This dataset is a custom dataset with random sensible values of **Temperature** and **Pressure**. In a closed system where volume is held constant, there is a direct relationship between Pressure and Temperature. In a direct relationship, when the pressure increases then the temperature also increases. When the pressure decreases, then the temperature decreases.\n",
+        "\n",
+        "The dataset includes 6 instances with 1 feature and 1 target column (`Pressure`).\n",
+        "\n",
+        "|Field|Description|\n",
+        "|---:|:---|\n",
+        "|sno|Row number|\n",
+        "|Temperature|Temperature of the region (in Fahrenheit)|\n",
+        "|Pressure|Pressure in that region (in pascal)|"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "83FgC947OzV4"
+      },
+      "source": [
+        "---"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "dkkg2QzEu3lP"
+      },
+      "source": [
+        "### List of Activities\n",
+        " \n",
+        "**Activity 1:** Importing Modules and Reading Data\n",
+        "\n",
+        "**Activity 2:** Build the Linear Regression Model\n",
+        "  \n",
+        "**Activity 3:** Visualise the Linear Regression Model\n",
+        "\n",
+        "**Activity 4:** Build the Polynomial Regression Model\n",
+        "\n",
+        "**Activity 5:** Visualise the Polynomial Regression Model"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "eUc0Lq-HlQ3O"
+      },
+      "source": [
+        "---"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "DQSgqaR1lire"
+      },
+      "source": [
+        "#### Activity 1: Importing Modules and Reading Data\n",
+        "\n",
+        "In this activity, you have to import the data from the link given for the csv file:\n",
+        "\n",
+        "1. Import the necessary Python modules.\n",
+        "\n",
+        "2. Read the data from a CSV file to create a Pandas DataFrame \n",
+        "\n",
+        "3. Go through the necessary data-cleaning process (if required).\n",
+        "\n",
+        "**Dataset Link:** https://s3-whjr-curriculum-uploads.whjr.online/e41b5e92-0d04-4afa-89d7-3a05ae74feec.csv"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "4AWWc0FxkxCq",
+        "outputId": "a33eb199-7714-42b4-b6d6-8186a96c3746",
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        }
+      },
+      "source": [
+        "# Load the Dataset \n",
+        "import pandas as pd\n",
+        "import numpy as np\n",
+        "\n",
+        "\n",
+        "df = pd.read_csv('https://s3-whjr-curriculum-uploads.whjr.online/e41b5e92-0d04-4afa-89d7-3a05ae74feec.csv')\n",
+        "\n",
+        "# Import the modules\n",
+        "\n",
+        "\n",
+        "# Create the DataFame\n",
+        "\n",
+        "\n",
+        "# Print the DataFrame\n"
+      ],
+      "execution_count": 6,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "sno            0\n",
+              "Temperature    0\n",
+              "Pressure       0\n",
+              "dtype: int64"
+            ]
+          },
+          "metadata": {},
+          "execution_count": 6
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "cKoPRVw6V9vX"
+      },
+      "source": [
+        "Divide the Datasets into two components `X` and `y`. `X` will contain the `Temperature` column and `y` will contain the `Pressure` column."
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "iKfoBbfWSoc0",
+        "outputId": "1339bc89-203d-4665-f69a-5e3377974235",
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        }
+      },
+      "source": [
+        "# Divide the Datasets into two components X and y using the 'iloc[]' function.\n",
+        "x = df.iloc[:,1]\n",
+        "y  = df.iloc[:,2]\n",
+        "print(x,y)"
+      ],
+      "execution_count": 10,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "0      0\n",
+            "1     20\n",
+            "2     40\n",
+            "3     60\n",
+            "4     80\n",
+            "5    100\n",
+            "Name: Temperature, dtype: int64 0    0.0002\n",
+            "1    0.0012\n",
+            "2    0.0060\n",
+            "3    0.0300\n",
+            "4    0.0900\n",
+            "5    0.2700\n",
+            "Name: Pressure, dtype: float64\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "TGgx138vBjPW"
+      },
+      "source": [
+        "---"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "VfUqbeDihv7Z"
+      },
+      "source": [
+        "#### Activity 2: Build the Linear Regression Model\n",
+        "\n",
+        "In this activity, you need to build and fit a Linear Regression model to this dataset. \n",
+        "\n",
+        "Evaluate the accuracy of this model with the $R^2$  score and plot the predicted values for `X`.\n",
+        "\n",
+        "1. Create an object (say `lin_reg`) of the `LinearRegression()` constructor.\n",
+        " \n",
+        "2. Call the `fit()` function on the above constructor with train feature `X` (`Temperature`) and target variable `y` (`Pressure`) as inputs.\n",
+        "\n",
+        "3. Get the predicted target values by calling the `predict()` function on `X`.\n",
+        "\n",
+        "4. Get the accuracy score with the $R^2$  score."
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "40j5qC1viFSe",
+        "outputId": "e88a60c8-ca0e-404b-a982-38f17171eba2",
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        }
+      },
+      "source": [
+        "# Build the Linear Regression Model\n",
+        "from sklearn.linear_model import LinearRegression\n",
+        "from sklearn.metrics import r2_score\n",
+        "lin_reg = LinearRegression()\n",
+        "# Create the Linear Regression object\n",
+        "xreshaped = x.values.reshape(-1,1)\n",
+        "lin_reg.fit(xreshaped,y)\n",
+        "pred = lin_reg.predict(xreshaped)\n",
+        "print('Predicted:', pred)\n",
+        "print(f'Accurancy: {lin_reg.score(xreshaped,y)}')\n",
+        "print(f'R2 score: {r2_score(y,pred)}')\n",
+        "# Fit Linear Regression to the dataset and make predictions\n",
+        "\n",
+        "\n",
+        "# Evaluate the accuracy score with R^2 sore.\n"
+      ],
+      "execution_count": 32,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "Predicted: [-0.05086667 -0.00402667  0.04281333  0.08965333  0.13649333  0.18333333]\n",
+            "Accurancy: 0.690349972603981\n",
+            "R2 score: 0.690349972603981\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "9SR4dO0UBmXs"
+      },
+      "source": [
+        "**Q**: What is the accuracy score of the Linear Regression model?\n",
+        "\n",
+        "**A**: The accuracy score of the Linear Regression Model is 0.69\n"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "MMG-0TpvcB8C"
+      },
+      "source": [
+        "---"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "IFTZjj8HcCga"
+      },
+      "source": [
+        "####Activity 3: Visualise the Linear Regression Model\n",
+        "\n",
+        "Visualise the Linear Regression results using a scatter plot by passing `X` and `y` inside the `scatter()` function.\n",
+        "\n",
+        "Also, plot the regression line by passing `X` and `y_pred` inside the `plot()` function. "
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "C-J4Goq4WPh8",
+        "outputId": "3e16df33-fd8c-4d45-c689-fed72f027a68",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 442
+        }
+      },
+      "source": [
+        "# Visualise the Linear Regression results using a scatter plot.\n",
+        "import matplotlib.pyplot as plt \n",
+        "plt.figure(figsize = (12,7))\n",
+        "plt.plot(x,y)\n",
+        "plt.xlabel('Temperature')\n",
+        "plt.ylabel('Pressure')\n",
+        "plt.show()"
+      ],
+      "execution_count": 21,
+      "outputs": [
+        {
+          "output_type": "display_data",
+          "data": {
+            "text/plain": [
+              "<Figure size 864x504 with 1 Axes>"
+            ],
+            "image/png": "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\n"
+          },
+          "metadata": {
+            "needs_background": "light"
+          }
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "lZx1u_qVHsWg"
+      },
+      "source": [
+        "Write your observation from the graph.\n",
+        "\n"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "ItH6bGhOWRzR"
+      },
+      "source": [
+        "---"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "v9QtGrCeWTH-"
+      },
+      "source": [
+        "#### Activity 4: Build the Polynomial Regression Model\n",
+        "\n",
+        "In this activity, you need to build and fit a Polynomial Regression model to this dataset. Also, evaluate the accuracy of this model with the $R^2$  score and plot the predicted values for `X`.\n",
+        "\n",
+        "1. Create an object (say `poly`) of the `PolynomialFeatures()` constructor with degree `4`.\n",
+        " \n",
+        "2. Call the `fit_transform()` function on the above constructor with train feature `X` (`Temperature`) as input. Store it in a variable `X_poly`.\n",
+        "\n",
+        "3. Call the `fit()` function on the `LinearRegression()` constructor with train feature `X_poly` (`Temperature`) and target variable `y` (`Pressure`) as inputs.\n",
+        "\n",
+        "4. Get the predicted target values by calling the `predict()` function on `X`.\n",
+        "\n",
+        "5. Get the accuracy score with the $R^2$  score."
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "s4E1Afu5WVAm",
+        "outputId": "ff920bd7-4674-432e-b0d9-57a6a65dc1de",
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        }
+      },
+      "source": [
+        "# Fit Polynomial Regression to the dataset  \n",
+        "# Create an object (say 'poly') of the 'PolynomialFeatures()' constructor with degree '4'\n",
+        "from sklearn.preprocessing import PolynomialFeatures\n",
+        "from sklearn.metrics import r2_score\n",
+        "poly = PolynomialFeatures(degree = 4)\n",
+        "X_poly = poly.fit_transform(xreshaped)\n",
+        "lin_reg.fit(X_poly, y)\n",
+        "pred_two = lin_reg.predict(X_poly)\n",
+        "print(f'Prediction = {pred_two}')\n",
+        "print(f'R2 Score : {r2_score(y,pred_two)}')\n",
+        "# Call the 'fit_transform()' function on the above constructor with train feature X as input\n",
+        "# Store it in a variable 'X_poly'\n",
+        "\n",
+        "# Call the 'fit()' function on the 'LinearRegression()' constructor with 'X_poly' and 'y' as inputs\n",
+        "\n",
+        "# Get the predicted target values by calling the 'predict()' function on 'X'\n",
+        "\n",
+        "# Get the accuracy score with the  𝑅^2  score\n"
+      ],
+      "execution_count": 30,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "Prediction = [ 4.61111118e-04 -1.05555549e-04  8.61111111e-03  2.73888889e-02\n",
+            "  9.13055556e-02  2.69738889e-01]\n",
+            "R2 Score : 0.9996910780718014\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "O3-MoPkZWYuV"
+      },
+      "source": [
+        "**Q**: What is the accuracy score of the Linear Regression model?\n",
+        "\n",
+        "**A**: "
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "UnrjV9PeWSdZ"
+      },
+      "source": [
+        "---"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "Vqv3X78iWdGP"
+      },
+      "source": [
+        "#### Activity 5: Visualise the Polynomial Regression Model.\n",
+        "\n",
+        "In this acitivty, you have to visualise the Polynomial Regression results using a scatter plot by passing `X` and `y` inside the `scatter()` function. Also, plot the regression line by passing `X` and `y_pred_poly` inside the `plot()` function. "
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "TWBFJSVKWiPK",
+        "outputId": "7fcc55ad-1428-47c6-9ca7-8137d9eb5ffc",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 428
+        }
+      },
+      "source": [
+        "# Visualise the Polynomial Regression results using a scatter plot\n",
+        "import matplotlib.pyplot as plt\n",
+        "plt.figure(figsize =(13,7))\n",
+        "plt.scatter(x, pred_two)\n",
+        "plt.show()"
+      ],
+      "execution_count": 36,
+      "outputs": [
+        {
+          "output_type": "display_data",
+          "data": {
+            "text/plain": [
+              "<Figure size 936x504 with 1 Axes>"
+            ],
+            "image/png": "iVBORw0KGgoAAAANSUhEUgAAAwEAAAGbCAYAAACcfZwZAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAALEgAACxIB0t1+/AAAADh0RVh0U29mdHdhcmUAbWF0cGxvdGxpYiB2ZXJzaW9uMy4yLjIsIGh0dHA6Ly9tYXRwbG90bGliLm9yZy+WH4yJAAAYAklEQVR4nO3dcYzf933X8dcbO2m9VdRpY03EyZqUZmaBQT3dsqJCmda1TmFKrKmjKVRkU1EEWsSgzChmf1RkQmtnBAMRbY3WQJnY0i5YxgINqzQd8E9LznWplxSrbtYmvnSr19QF0VMTp2/+uJ/Tn92L/Dvncr+zP4+HdPJ9P9/v7/K29NXX98x9v7+r7g4AADCOPzHvAQAAgI0lAgAAYDAiAAAABiMCAABgMCIAAAAGs3XeA1zo2muv7RtvvHHeYwAAwGXt6NGjf9zdO1bbt+ki4MYbb8zi4uK8xwAAgMtaVX35xfa5HQgAAAYjAgAAYDAiAAAABiMCAABgMCIAAAAGIwIAAGAwIgAAAAYjAgAAYDAiAAAABiMCAABgMCIAAAAGIwIAAGAwIgAAAAazdd4DAADAleLQsaUcOHIiT59ZznXbt2Xfnl3Zu3vnvMf6LiIAAADWwaFjS9l/8HiWn3s+SbJ0Zjn7Dx5Pkk0XAm4HAgCAdXDgyIkXAuCc5eeez4EjJ+Y00YsTAQAAsA6ePrO8pvV5EgEAALAOrtu+bU3r8yQCAABgHezbsyvbrtpy3tq2q7Zk355dc5roxXkwGAAA1sG5h3+9OxAAAAxk7+6dm/Kb/gu5HQgAAAYjAgAAYDAiAAAABiMCAABgMCIAAAAGIwIAAGAwIgAAAAYjAgAAYDAiAAAABiMCAABgMCIAAAAGIwIAAGAwIgAAAAYjAgAAYDAiAAAABiMCAABgMCIAAAAGM1MEVNVtVXWiqk5W1b2r7H9fVT1eVZ+rqk9U1eum9j1fVZ+dfBxez+EBAIC123qxA6pqS5L7k7wtyakkj1bV4e5+fOqwY0kWuvubVfV3k/xKkndN9i139xvXeW4AAOASzfKTgFuTnOzuJ7r72SQPJblj+oDu/mR3f3Oy+akk16/vmAAAwHqZJQJ2JnlqavvUZO3FvDfJ705tv7KqFqvqU1W1d7UXVNXdk2MWT58+PcNIAADApbro7UBrUVXvSbKQ5K9MLb+uu5eq6vVJHqmq4939xenXdfcDSR5IkoWFhV7PmQAAgPPN8pOApSQ3TG1fP1k7T1X9RJJfTHJ7d3/r3Hp3L03+fCLJ7yXZ/RLmBQAAXqJZIuDRJDdX1U1VdXWSO5Oc9y4/VbU7yYeyEgBfnVq/pqpeMfn82iRvTjL9QDEAALDBLno7UHefrap7khxJsiXJg939WFXdl2Sxuw8nOZDkVUl+p6qS5Mnuvj3JDyb5UFV9OyvB8YEL3lUIAADYYNW9uW7BX1hY6MXFxXmPAQAAl7WqOtrdC6vt8xuDAQBgMCIAAAAGIwIAAGAwIgAAAAYjAgAAYDAiAAAABiMCAABgMCIAAAAGIwIAAGAwIgAAAAYjAgAAYDAiAAAABiMCAABgMCIAAAAGIwIAAGAwIgAAAAYjAgAAYDAiAAAABiMCAABgMCIAAAAGIwIAAGAwIgAAAAYjAgAAYDAiAAAABiMCAABgMCIAAAAGIwIAAGAwIgAAAAYjAgAAYDAiAAAABiMCAABgMCIAAAAGIwIAAGAwIgAAAAYjAgAAYDAiAAAABiMCAABgMCIAAAAGIwIAAGAwIgAAAAYjAgAAYDAiAAAABiMCAABgMCIAAAAGIwIAAGAwIgAAAAYjAgAAYDAiAAAABiMCAABgMCIAAAAGIwIAAGAwIgAAAAYjAgAAYDAiAAAABiMCAABgMDNFQFXdVlUnqupkVd27yv73VdXjVfW5qvpEVb1uat9dVfWFycdd6zk8AACwdheNgKrakuT+JO9IckuSd1fVLRccdizJQnf/+SQPJ/mVyWtfk+T9SX40ya1J3l9V16zf+AAAwFrN8pOAW5Oc7O4nuvvZJA8luWP6gO7+ZHd/c7L5qSTXTz7fk+Tj3f1Md389yceT3LY+owMAAJdilgjYmeSpqe1Tk7UX894kv7uW11bV3VW1WFWLp0+fnmEkAADgUq3rg8FV9Z4kC0kOrOV13f1Ady9098KOHTvWcyQAAOACs0TAUpIbpravn6ydp6p+IskvJrm9u7+1ltcCAAAbZ5YIeDTJzVV1U1VdneTOJIenD6iq3Uk+lJUA+OrUriNJ3l5V10weCH77ZA0AAJiTrRc7oLvPVtU9WfnmfUuSB7v7saq6L8lidx/Oyu0/r0ryO1WVJE929+3d/UxV/VJWQiJJ7uvuZ16WvwkAADCT6u55z3CehYWFXlxcnPcYAABwWauqo929sNo+vzEYAAAGIwIAAGAwIgAAAAYjAgAAYDAiAAAABiMCAABgMCIAAAAGIwIAAGAwIgAAAAYjAgAAYDAiAAAABiMCAABgMCIAAAAGIwIAAGAwIgAAAAYjAgAAYDAiAAAABiMCAABgMCIAAAAGIwIAAGAwIgAAAAYjAgAAYDAiAAAABiMCAABgMCIAAAAGIwIAAGAwIgAAAAYjAgAAYDAiAAAABiMCAABgMCIAAAAGIwIAAGAwIgAAAAYjAgAAYDAiAAAABiMCAABgMCIAAAAGIwIAAGAwIgAAAAYjAgAAYDAiAAAABiMCAABgMCIAAAAGIwIAAGAwIgAAAAYjAgAAYDAiAAAABiMCAABgMCIAAAAGIwIAAGAwIgAAAAYjAgAAYDAiAAAABiMCAABgMCIAAAAGM1MEVNVtVXWiqk5W1b2r7H9LVX2mqs5W1Tsv2Pd8VX128nF4vQYHAAAuzdaLHVBVW5Lcn+RtSU4lebSqDnf341OHPZnkZ5L8wipfYrm737gOswIAAOvgohGQ5NYkJ7v7iSSpqoeS3JHkhQjo7i9N9n37ZZgRAABYR7PcDrQzyVNT26cma7N6ZVUtVtWnqmrvagdU1d2TYxZPnz69hi8NAACs1UY8GPy67l5I8jeS/GpV/ekLD+juB7p7obsXduzYsQEjAQDAuGaJgKUkN0xtXz9Zm0l3L03+fCLJ7yXZvYb5AACAdTZLBDya5Oaquqmqrk5yZ5KZ3uWnqq6pqldMPr82yZsz9SwBAACw8S4aAd19Nsk9SY4k+XySj3X3Y1V1X1XdniRV9SNVdSrJTyf5UFU9Nnn5DyZZrKr/leSTST5wwbsKAQAAG6y6e94znGdhYaEXFxfnPQYAAFzWquro5Nnc7+I3BgMAwGBEAAAADEYEAADAYEQAAAAMRgQAAMBgRAAAAAxGBAAAwGBEAAAADEYEAADAYEQAAAAMRgQAAMBgRAAAAAxGBAAAwGBEAAAADEYEAADAYEQAAAAMRgQAAMBgRAAAAAxGBAAAwGBEAAAADEYEAADAYEQAAAAMRgQAAMBgRAAAAAxGBAAAwGBEAAAADEYEAADAYEQAAAAMRgQAAMBgRAAAAAxGBAAAwGBEAAAADEYEAADAYEQAAAAMRgQAAMBgRAAAAAxGBAAAwGBEAAAADEYEAADAYEQAAAAMRgQAAMBgRAAAAAxGBAAAwGBEAAAADEYEAADAYEQAAAAMRgQAAMBgRAAAAAxGBAAAwGBEAAAADEYEAADAYEQAAAAMRgQAAMBgRAAAAAxGBAAAwGBmioCquq2qTlTVyaq6d5X9b6mqz1TV2ap65wX77qqqL0w+7lqvwQEAgEtz0Qioqi1J7k/yjiS3JHl3Vd1ywWFPJvmZJL91wWtfk+T9SX40ya1J3l9V17z0sQEAgEs1y08Cbk1ysruf6O5nkzyU5I7pA7r7S939uSTfvuC1e5J8vLuf6e6vJ/l4ktvWYW4AAOASzRIBO5M8NbV9arI2i5leW1V3V9ViVS2ePn16xi8NAABcik3xYHB3P9DdC929sGPHjnmPAwAAV7RZImApyQ1T29dP1mbxUl4LAAC8DGaJgEeT3FxVN1XV1UnuTHJ4xq9/JMnbq+qayQPBb5+sAQAAc3LRCOjus0nuyco3759P8rHufqyq7quq25Okqn6kqk4l+ekkH6qqxyavfSbJL2UlJB5Nct9kDQAAmJPq7nnPcJ6FhYVeXFyc9xgAAHBZq6qj3b2w2r5N8WAwAACwcUQAAAAMZuu8BwAAuJwdOraUA0dO5Okzy7lu+7bs27Mre3fP+iuVYD5EAADAJTp0bCn7Dx7P8nPPJ0mWzixn/8HjSSIE2NTcDgQAcIkOHDnxQgCcs/zc8zlw5MScJoLZiAAAgEv09JnlNa3DZiECAAAu0XXbt61pHTYLEQAAcIn27dmVbVdtOW9t21Vbsm/PrjlNBLPxYDAAwCU69/CvdwficiMCAABegr27d/qmn8uO24EAAGAwIgAAAAYjAgAAYDAiAAAABiMCAABgMCIAAAAGIwIAAGAwIgAAAAYjAgAAYDAiAAAABiMCAABgMCIAAAAGIwIAAGAwIgAAAAYjAgAAYDAiAAAABiMCAABgMCIAAAAGIwIAAGAwIgAAAAYjAgAAYDAiAAAABiMCAABgMCIAAAAGIwIAAGAwIgAAAAYjAgAAYDAiAAAABiMCAABgMCIAAAAGIwIAAGAwIgAAAAYjAgAAYDAiAAAABiMCAABgMCIAAAAGIwIAAGAwIgAAAAYjAgAAYDAiAAAABiMCAABgMCIAAAAGIwIAAGAwIgAAAAYjAgAAYDAzRUBV3VZVJ6rqZFXdu8r+V1TVRyf7P11VN07Wb6yq5ar67OTj19d3fAAAYK22XuyAqtqS5P4kb0tyKsmjVXW4ux+fOuy9Sb7e3W+oqjuTfDDJuyb7vtjdb1znuQEAgEs0y08Cbk1ysruf6O5nkzyU5I4LjrkjyUcmnz+c5K1VVes3JgAAsF5miYCdSZ6a2j41WVv1mO4+m+QbSV472XdTVR2rqv9WVX95tf9AVd1dVYtVtXj69Ok1/QUAAIC1ebkfDP5Kku/v7t1J3pfkt6rqT154UHc/0N0L3b2wY8eOl3kkAAAY2ywRsJTkhqnt6ydrqx5TVVuTvDrJ17r7W939tSTp7qNJvpjkB17q0AAAwKWbJQIeTXJzVd1UVVcnuTPJ4QuOOZzkrsnn70zySHd3Ve2YPFicqnp9kpuTPLE+owMAAJfiou8O1N1nq+qeJEeSbEnyYHc/VlX3JVns7sNJPpzkN6vqZJJnshIKSfKWJPdV1XNJvp3k73T3My/HXwQAAJhNdfe8ZzjPwsJCLy4uznsMAAC4rFXV0e5eWG2f3xgMAACDEQEAADAYEQAAAIMRAQAAMBgRAAAAgxEBAAAwGBEAAACDEQEAADAYEQAAAIMRAQAAMBgRAAAAgxEBAAAwGBEAAACDEQEAADAYEQAAAIMRAQAAMBgRAAAAgxEBAAAwGBEAAACDEQEAADCYrfMeAAAuN4eOLeXAkRN5+sxyrtu+Lfv27Mre3TvnPRbAzEQAAKzBoWNL2X/weJafez5JsnRmOfsPHk8SIQBcNtwOBABrcODIiRcC4Jzl557PgSMn5jQRwNqJAABYg6fPLK9pHWAzEgEAsAbXbd+2pnWAzUgEAMAa7NuzK9uu2nLe2rartmTfnl1zmghg7TwYDABrcO7hX+8OBFzORAAArNHe3Tt90w9c1twOBAAAgxEBAAAwGBEAAACDEQEAADAYEQAAAIMRAQAAMBgRAAAAgxEBAAAwGBEAAACDEQEAADAYEQAAAIMRAQAAMBgRAAAAgxEBAAAwGBEAAACDEQEAADCYrfMeAOBycOjYUg4cOZGnzyznuu3bsm/PruzdvXPeYwHAJREBABdx6NhS9h88nuXnnk+SLJ1Zzv6Dx5NECABwWXI7EMBFHDhy4oUAOGf5uedz4MiJOU0EAC+NCAC4iKfPLK9pHQA2OxEAcBHXbd+2pnUA2OxEAMBF7NuzK9uu2nLe2rartmTfnl1zmggAXhoPBgNcxLmHf707EABXChEAMIO9u3f6ph+AK4bbgQAAYDAiAAAABiMCAABgMDNFQFXdVlUnqupkVd27yv5XVNVHJ/s/XVU3Tu3bP1k/UVV71m/09Xfo2FLe/IFHctO9/zlv/sAjOXRsad4jAQDAurvog8FVtSXJ/UneluRUkker6nB3Pz512HuTfL2731BVdyb5YJJ3VdUtSe5M8meTXJfkv1bVD3T3+b96cxM4dGwp+w8ef+G3gi6dWc7+g8eTxMOAgzp0bMm7wQAAV6RZfhJwa5KT3f1Edz+b5KEkd1xwzB1JPjL5/OEkb62qmqw/1N3f6u4/SHJy8vU2nQNHTrwQAOcsP/d8Dhw5MaeJmKdzUbh0Zjmd70Shnw4BAFeCWSJgZ5KnprZPTdZWPaa7zyb5RpLXzvjaVNXdVbVYVYunT5+effp19PSZ5TWtc2UThQDAlWxTPBjc3Q9090J3L+zYsWMuM1y3fdua1rmyiUIA4Eo2SwQsJblhavv6ydqqx1TV1iSvTvK1GV+7Kezbsyvbrtpy3tq2q7Zk355dc5qIeRKFAMCVbJYIeDTJzVV1U1VdnZUHfQ9fcMzhJHdNPn9nkke6uyfrd07ePeimJDcn+Z/rM/r62rt7Z375p34oO7dvSyXZuX1bfvmnfsiDoIMShQDAleyi7w7U3Wer6p4kR5JsSfJgdz9WVfclWezuw0k+nOQ3q+pkkmeyEgqZHPexJI8nOZvk5zbjOwOds3f3Tt/0k+Q77wjl3YEAgCtRrfwP+81jYWGhFxcX5z0GAABc1qrqaHcvrLZvUzwYDAAAbBwRAAAAgxEBAAAwGBEAAACDEQEAADAYEQAAAIMRAQAAMBgRAAAAgxEBAAAwGBEAAACDEQEAADAYEQAAAIOp7p73DOepqtNJvjznMa5N8sdznoHNw/nANOcD05wPTHM+MG0znA+v6+4dq+3YdBGwGVTVYncvzHsONgfnA9OcD0xzPjDN+cC0zX4+uB0IAAAGIwIAAGAwImB1D8x7ADYV5wPTnA9Mcz4wzfnAtE19PngmAAAABuMnAQAAMBgRAAAAgxEBF6iq26rqRFWdrKp75z0PG6uqbqiqT1bV41X1WFX9/GT9NVX18ar6wuTPa+Y9KxujqrZU1bGq+k+T7Zuq6tOTa8RHq+rqec/Ixqmq7VX1cFX976r6fFX9RdeHMVXVP5j8O/H7VfXbVfVK14exVNWDVfXVqvr9qbVVrwe14l9Nzo3PVdUPz2/yFSJgSlVtSXJ/knckuSXJu6vqlvlOxQY7m+QfdvctSd6U5Ocm58C9ST7R3Tcn+cRkmzH8fJLPT21/MMm/6O43JPl6kvfOZSrm5V8m+S/d/WeS/IWsnBuuD4Opqp1J/l6She7+c0m2JLkzrg+j+bdJbrtg7cWuB+9IcvPk4+4kv7ZBM74oEXC+W5Oc7O4nuvvZJA8luWPOM7GBuvsr3f2Zyef/Nyv/wO/MynnwkclhH0mydz4TspGq6vokfy3Jb0y2K8mPJ3l4cohzYSBV9eokb0ny4STp7me7+0xcH0a1Ncm2qtqa5HuSfCWuD0Pp7v+e5JkLll/senBHkn/XKz6VZHtV/amNmXR1IuB8O5M8NbV9arLGgKrqxiS7k3w6yfd191cmu/4wyffNaSw21q8m+UdJvj3Zfm2SM919drLtGjGWm5KcTvJvJreI/UZVfW9cH4bT3UtJ/lmSJ7Pyzf83khyN6wMvfj3YdN9jigBYRVW9Ksl/SPL3u/v/TO/rlffV9d66V7iq+skkX+3uo/OehU1ja5IfTvJr3b07yf/LBbf+uD6MYXKf9x1ZCcPrknxvvvu2EAa32a8HIuB8S0lumNq+frLGQKrqqqwEwL/v7oOT5T8692O7yZ9fndd8bJg3J7m9qr6UlVsDfzwr94Nvn/z4P3GNGM2pJKe6+9OT7YezEgWuD+P5iSR/0N2nu/u5JAezcs1wfeDFrgeb7ntMEXC+R5PcPHm6/+qsPORzeM4zsYEm93x/OMnnu/ufT+06nOSuyed3JfmPGz0bG6u793f39d19Y1auBY90999M8skk75wc5lwYSHf/YZKnqmrXZOmtSR6P68OInkzypqr6nsm/G+fOBdcHXux6cDjJ35q8S9Cbknxj6rahufAbgy9QVX81K/cBb0nyYHf/0zmPxAaqqr+U5H8kOZ7v3Af+j7PyXMDHknx/ki8n+evdfeHDQFyhqurHkvxCd/9kVb0+Kz8ZeE2SY0ne093fmud8bJyqemNWHhS/OskTSX42K/9DzfVhMFX1T5K8KyvvKncsyd/Oyj3erg+DqKrfTvJjSa5N8kdJ3p/kUFa5Hkxi8V9n5baxbyb52e5enMfc54gAAAAYjNuBAABgMCIAAAAGIwIAAGAwIgAAAAYjAgAAYDAiAAAABiMCAABgMP8fFveW4JUDXCMAAAAASUVORK5CYII=\n"
+          },
+          "metadata": {
+            "needs_background": "light"
+          }
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "t6LZQFTNWkYM"
+      },
+      "source": [
+        "**Q:** Write down the advantages of using Polynomial Regression.\n",
+        "\n",
+        "**A** "
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "RStqXAOTWcfJ"
+      },
+      "source": [
+        "---"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "XCHVvIOYUhyu"
+      },
+      "source": [
+        "### Submitting the Project:\n",
+        "\n",
+        "1. After finishing the project, click on the **Share** button on the top right corner of the notebook. A new dialog box will appear.\n",
+        "\n",
+        "  <img src='https://student-datasets-bucket.s3.ap-south-1.amazonaws.com/images/project-share-images/2_share_button.png' width=500>\n",
+        "\n",
+        "2. In the dialog box, make sure that '**Anyone on the Internet with this link can view**' option is selected and then click on the **Copy link** button.\n",
+        "\n",
+        "   <img src='https://student-datasets-bucket.s3.ap-south-1.amazonaws.com/images/project-share-images/3_copy_link.png' width=500>\n",
+        "\n",
+        "3. The link of the duplicate copy (named as **YYYY-MM-DD_StudentName_Project104**) of the notebook will get copied \n",
+        "\n",
+        "   <img src='https://student-datasets-bucket.s3.ap-south-1.amazonaws.com/images/project-share-images/4_copy_link_confirmation.png' width=500>\n",
+        "\n",
+        "4. Go to your dashboard and click on the **My Projects** option.\n",
+        "   \n",
+        "   <img src='https://student-datasets-bucket.s3.ap-south-1.amazonaws.com/images/project-share-images/5_student_dashboard.png' width=800>\n",
+        "\n",
+        "  <img src='https://student-datasets-bucket.s3.ap-south-1.amazonaws.com/images/project-share-images/6_my_projects.png' width=800>\n",
+        "\n",
+        "5. Click on the **View Project** button for the project you want to submit.\n",
+        "\n",
+        "   <img src='https://student-datasets-bucket.s3.ap-south-1.amazonaws.com/images/project-share-images/7_view_project.png' width=800>\n",
+        "\n",
+        "6. Click on the **Submit Project Here** button.\n",
+        "\n",
+        "   <img src='https://student-datasets-bucket.s3.ap-south-1.amazonaws.com/images/project-share-images/8_submit_project.png' width=800>\n",
+        "\n",
+        "7. Paste the link to the project file named as **YYYY-MM-DD_StudentName_Project104** in the URL box and then click on the **Submit** button.\n",
+        "\n",
+        "   <img src='https://student-datasets-bucket.s3.ap-south-1.amazonaws.com/images/project-share-images/9_enter_project_url.png' width=800> "
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "XFqVMncjUhLc"
+      },
+      "source": [
+        "---"
+      ]
+    }
+  ]
+}
